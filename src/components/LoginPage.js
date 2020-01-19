@@ -7,6 +7,8 @@ class LoginPage extends React.Component {
         super(props);
         //Create a ref for the email input DOM element
         this.emailInputRef = React.createRef();
+        this.state = {loginBtnIcon: "fa fa-sign-in",
+                      loginBtnLabel: "Log In"};
     }
 
     //Focus cursor in email input field when mounted
@@ -14,10 +16,37 @@ class LoginPage extends React.Component {
         this.emailInputRef.current.focus();
     }
 
+    //handleLogin -- Callback function that sets up initial app state upon login.
+    handleLogin = () => {
+      //Stop spinner
+      this.setState({loginBtnIcon: "fa fa-sign-in",loginBtnLabel: "Log In"});
+      //Set the userId of current user
+      let thisUser = this.emailInputRef.current.value;
+      this.props.setUserId(thisUser);
+      //Check whether we have saved data on this (or any) user:
+      let data = localStorage.getItem("speedgolfUserData");
+      if (data == null) { 
+        //No user app data stored yet -- create blank record for current user
+        localStorage.setItem("speedgolfUserData",
+        JSON.stringify({[thisUser] : {"rounds" : {}, "roundCount": 0}}));  
+      } else {
+        //app data exists -- check if data exists for thisUser
+        data = JSON.parse(data);
+        if  (!data.hasOwnProperty(thisUser)) { 
+            //No data for this user -- create empty data
+            data[thisUser] = {"rounds": {}, "roundCount": 0}; 
+            localStorage.setItem("speedgolfUserData",JSON.stringify(data));
+        } 
+      }  
+      //Trigger switch to FEED mode
+      this.props.changeMode(AppMode.FEED);
+    }
+
     handleSubmit = (event) => {
+        this.setState({loginBtnIcon: "fa fa-spin fa-spinner",
+                       loginBtnLabel: "Logging In..."});
+        setTimeout(this.handleLogin,300);
         event.preventDefault();
-        this.props.changeMode(AppMode.FEED);
-        this.props.setUserId(this.emailInputRef.current.value);
     }
     
     render() {
@@ -54,8 +83,8 @@ class LoginPage extends React.Component {
             <button
                 type="submit"
                 className="btncolortheme btn btn-primary btn-block loginbtn">
-                <span id="loginBtnIcon" className="fa fa-sign-in"/>
-                &nbsp;Log In
+                <span className={this.state.loginBtnIcon}/>
+                &nbsp;{this.state.loginBtnLabel}
             </button>
             <br />
             <a role="button" className="loginBtn">

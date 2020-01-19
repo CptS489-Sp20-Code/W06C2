@@ -6,6 +6,7 @@ import FloatingButton from './FloatingButton.js';
 import LoginPage from './LoginPage.js';
 import FeedPage from './FeedPage.js';
 import RoundsPage from './RoundsPage.js';
+import RoundForm from './RoundForm.js';
 import CoursesPage from './CoursesPage.js';
 import AppMode from "./../AppMode.js";
 
@@ -14,12 +15,14 @@ modeToPage[AppMode.LOGIN] = LoginPage;
 modeToPage[AppMode.FEED] = FeedPage;
 modeToPage[AppMode.ROUNDS] = RoundsPage;
 modeToPage[AppMode.COURSES] = CoursesPage;
+modeToPage[AppMode.ROUNDS_LOGROUND] = RoundForm;
 
 const modeTitle = {};
 modeTitle[AppMode.LOGIN] = "Welcome to SpeedScore";
 modeTitle[AppMode.FEED] = "Activity Feed";
 modeTitle[AppMode.ROUNDS] = "My Rounds";
 modeTitle[AppMode.COURSES] = "Courses";
+modeTitle[AppMode.ROUNDS_LOGROUND] = "Log New Round";
 
 class App extends React.Component {
   constructor(props) {
@@ -83,16 +86,16 @@ class App extends React.Component {
       <SideMenu mode={this.state.mode}
                 userId={this.state.userId}
                 menuOpen={this.state.menuOpen}
-                closeMenu={this.closeMenu}/>
+                changeMode={this.handleChangeMode}/>
       <ModeBar mode={this.state.mode} 
                changeMode={this.handleChangeMode}
-               menuOpen={this.state.menuOpen}
-               closeMenu={this.closeMenu}/>
+               menuOpen={this.state.menuOpen}/>
       <FloatingButton mode={this.state.mode}
                       menuOpen={this.state.menuOpen}
-                      closeMenu={this.closeMenu}/>
+                      changeMode={this.handleChangeMode}/>
       <ModePage menuOpen={this.state.menuOpen}
                 changeMode={this.handleChangeMode}
+                userId={this.state.userId}
                 setUserId={this.setUserId}/>
     </div>
     );

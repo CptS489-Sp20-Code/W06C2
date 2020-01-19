@@ -2,6 +2,16 @@ import React from 'react';
 
 class RoundsPage extends React.Component {
 
+   constructor(props) {
+     super(props);
+     let data = JSON.parse(localStorage.getItem("speedgolfUserData")); 
+     this.state = {rounds: data[this.props.userId].rounds};
+   }
+
+    renderTable = () => {
+      //TO DO: Implement this!
+    }
+
     render() {
       return(
       <div className="paddedPage">
@@ -17,9 +27,13 @@ class RoundsPage extends React.Component {
           </tr>
           </thead>
           <tbody>
+            {Object.keys(this.state.rounds) === 0 ? 
             <tr>
             <td colSpan="5" style={{fontStyle: "italic"}}>No rounds added yet</td>
-            </tr> 
+            </tr> : 
+            <tr>
+            <td colSpan="5" style={{fontStyle: "italic"}}>Non-empty table to be rendered</td>
+            </tr> }
           </tbody>
         </table>
       </div>

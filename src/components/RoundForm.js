@@ -1,4 +1,5 @@
 import React from 'react';
+import AppMode from '../AppMode.js';
 
 class RoundForm extends React.Component {
     constructor(props) {
@@ -14,8 +15,8 @@ class RoundForm extends React.Component {
                     minutes: 50,
                     seconds: "00",
                     notes: "",
-                    faIcon: "fa fa-edit",
-                    btnLabel: "Edit Round Data"
+                    faIcon: "fa fa-save",
+                    btnLabel: "Save Round Data"
     };
   }
   
@@ -29,23 +30,39 @@ class RoundForm extends React.Component {
       }
     }
   
-    handleSubmit = (event) => {
-      event.preventDefault();
-      //We need to store only the round data, not the UI state:
+    //handleSave -- Callback function invoked to stop spinner and actually save
+    //data.
+    handleSave = () => {
+      //Stop spinner
+      this.setState({faIcon: "fa fa-save"}); 
+      //We need to save only the round data, not the UI state:
       let roundData = this.state;
       delete roundData.faIcon;
       delete roundData.btnLabel;
-      localStorage.setItem("userData",JSON.stringify(roundData));
-      alert("Local user data now contains " + localStorage.getItem("userData"));
+      let data = JSON.parse(localStorage.getItem("speedgolfUserData"));
+      roundData.roundNum = ++(data[this.props.userId].roundCount);
+      data[this.props.userId].rounds[roundData.roundNum] = roundData;
+      localStorage.setItem("speedgolfUserData",JSON.stringify(data));
+      //alert("Local user data now contains " + localStorage.getItem("speedgolfUserData"));
+      this.props.changeMode(AppMode.ROUNDS);
     }
 
-    computeSGS = () => {
+    //handleSubmit -- start the spinner and invoke handleSave to do the actual work.
+    handleSubmit = (event) => {
+      //start spinner
+      this.setState({faIcon: "fa fa-spin fa-spinner"});
+      setTimeout(this.handleSave,300);
+      event.preventDefault();
+    }
+    
+        computeSGS = () => {
       return (Number(this.state.strokes) + Number(this.state.minutes)) 
                   + ":" + this.state.seconds;
     }
   
     render() {
       return (
+        <div className = "paddedPage">
         <form onSubmit={this.handleSubmit}>
           <center>
             <label>
@@ -107,6 +124,7 @@ class RoundForm extends React.Component {
               <span className={this.state.faIcon}>&nbsp;</span>{this.state.btnLabel}</button>
           </center>
         </form>
+        </div>
       );
     }
 }

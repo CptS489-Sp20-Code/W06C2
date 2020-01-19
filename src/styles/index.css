@@ -41,10 +41,12 @@
         padding-bottom: 5px;
       }
       
+      /* set width to 250px when menu is open */
       .menuopen {
         width: 250px;
       }
 
+      /* set width to 0px when menu is closed */
       .menuclosed {
         width: 0px;
       }
@@ -59,7 +61,7 @@
           background-color: #13294E; /* Background color is dark blue */
           overflow-x: hidden; /* Don't allow horizontal scroll */
           transition: 0.5s; /* Animation transition time is 0.5 sec */
-          padding-top: 60px; /* Place menu content 60 px from top */
+          padding-top: 2px; /* Place menu content 2 px from top */
       }
 
       /* applies only to an anchor tag that's a child of a sidenav element. */
@@ -71,19 +73,8 @@
               display: block;
               transition: 0.3s;
           }
-          
      
-      .sidenav div {
-              padding: 0px 0px 10px 6px;
-              text-decoration: none;
-              font-size: 16px;
-              color: white;
-              display: block;
-              transition: 0.3s;
-              /* border-bottom: 2px solid white; */
-          }
-       
-       /* Required ordering of link style definitions: visited, hover, active. If out of this order, they won't work!! */
+        /* Required ordering of link style definitions: visited, hover, active. If out of this order, they won't work!! */
        
        .sidenav a:visited {
         background-color:  #13294E !important;
@@ -94,24 +85,25 @@
         background-color:  #13294E !important;
         color: white !important;
       }
+
+      .sidenav a:hover {
+        cursor: default;
+        text-decoration: none;
+        color: #13294E !important;
+        background-color: #F0F0F0;
+    }
       
      
       /* Cascading style within a style: This definition applies only to sidenavtitle class defined in an 
          element that's a child of sidenav element. */   
       .sidenav .sidenavtitle {
-              position: absolute;
-              width:100%;
-              top: 0px;
-              left: 0px;
-              padding: 0px 0px 0px 6px;
-              font-size: 18px;
-              margin-top: 20px;
-              margin-bottom: 20px !important;
-              border-bottom: 2px solid white;
+          margin-bottom: 2px;
+          border-bottom: 2px solid white;
          }
 
          .sidenav .sidenavuserID {
            font-size: 14px;
+           color: white;
          }
       
       /* side menu button styling */
@@ -129,12 +121,12 @@
       }
 
       
-      .menuItem:hover {
+      /* .menuItem:hover {
           cursor: default;
           text-decoration: none;
           color: #13294E !important;
           background-color: #F0F0F0;
-      }
+      } */
 
       /* side menu styling when menu item selected */
       .menuItemSelected {
@@ -169,9 +161,10 @@
               color: #13294E;
       }
     
-/* Styling for the divs in the app. Ensures that the content at top isn't obscured by top bar */
+/* Styling for the divs in the app. Ensures that the content at top isn't
+obscured by top bar and the content at the bottom isn't obscured by the mode bar */
  .paddedPage {
-      padding: 56px 8px 0px 8px;
+      padding: 56px 0px 56px 0px;
       height: 100%; /* 100% of app */
   }
   
@@ -218,11 +211,10 @@
   color: #13294E;
 }
 
-/* Add a gray background color to button when it is hovered */
+/* Ensure white text color when hovered */
 .modebar a:hover {
-  background-color: #F0F0F0;
-  color: #13294E;
-}
+  color: #F0F0F0; 
+} 
 
 /* Hide the link that should open and close the navbar on small screens */
 .modebar .icon {
@@ -255,8 +247,9 @@ text-align:center;
 box-shadow: 2px 2px 3px #999;
 }
 
-.my-float{
+.floaticon {
 margin-top:22px;
+color: white;
 }
 
 .floatBtnDiv a:visited {

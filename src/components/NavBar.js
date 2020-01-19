@@ -2,10 +2,6 @@ import React from 'react';
 import AppMode from '../AppMode.js';
 
 class NavBar extends React.Component {
-    
-    constructor(props) {
-      super(props);
-    }
 
     handleMenuBtnClick = () => {
       if (this.props.mode != AppMode.LOGIN) {
