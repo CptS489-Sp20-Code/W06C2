@@ -234,7 +234,7 @@ obscured by top bar and the content at the bottom isn't obscured by the mode bar
 }
 
 /* Style the floating action button, which is fixed in the lower right of the app */
-.float{
+.floatbutton {
 position:fixed;
 width:60px;
 height:60px;
@@ -252,11 +252,11 @@ margin-top:22px;
 color: white;
 }
 
-.floatBtnDiv a:visited {
+.floatbuttondiv a:visited {
 color: white !important;
 }
 
-.floatBtnDiv a:active {
+.floatbuttondiv a:active {
 color: white !important;
 }
 

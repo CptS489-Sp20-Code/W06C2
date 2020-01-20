@@ -7,7 +7,8 @@ class RoundForm extends React.Component {
       //Create date object for today, taking time zone into consideration
       let today = new Date(Date.now()-(new Date()).getTimezoneOffset()*60000);
       //store date as ISO string
-      this.state = {date:  today.toISOString().substr(0,10), 
+      if (this.props.mode === AppMode.ROUNDS_LOGROUND) {
+        this.state = {date:  today.toISOString().substr(0,10), 
                     course: "",
                     type: "practice",
                     holes: "18",
@@ -16,11 +17,15 @@ class RoundForm extends React.Component {
                     seconds: "00",
                     notes: "",
                     faIcon: "fa fa-save",
-                    btnLabel: "Save Round Data"
-    };
+                    btnLabel: "Save Round Data"}
+      } else {
+        this.state = this.props.startData;
+        this.state.faIcon = "fa fa-edit";
+        this.state.btnLabel = "Update Round Data";
+      }
   }
   
-    handleChange = (event) => {
+  handleChange = (event) => {
       const name = event.target.name;
       if (name === "seconds") {
         this.setState({seconds: (event.target.value.length < 2 ? "0" + event.target.value : 
@@ -30,32 +35,18 @@ class RoundForm extends React.Component {
       }
     }
   
-    //handleSave -- Callback function invoked to stop spinner and actually save
-    //data.
-    handleSave = () => {
-      //Stop spinner
-      this.setState({faIcon: "fa fa-save"}); 
-      //We need to save only the round data, not the UI state:
+    //handleSubmit -- start the spinner and invoke handleSave to do the actual work.
+    handleSubmit = (event) => {
+      event.preventDefault();
+      //start spinner
+      this.setState({faIcon: "fa fa-spin fa-spinner"});
       let roundData = this.state;
       delete roundData.faIcon;
       delete roundData.btnLabel;
-      let data = JSON.parse(localStorage.getItem("speedgolfUserData"));
-      roundData.roundNum = ++(data[this.props.userId].roundCount);
-      data[this.props.userId].rounds[roundData.roundNum] = roundData;
-      localStorage.setItem("speedgolfUserData",JSON.stringify(data));
-      //alert("Local user data now contains " + localStorage.getItem("speedgolfUserData"));
-      this.props.changeMode(AppMode.ROUNDS);
-    }
-
-    //handleSubmit -- start the spinner and invoke handleSave to do the actual work.
-    handleSubmit = (event) => {
-      //start spinner
-      this.setState({faIcon: "fa fa-spin fa-spinner"});
-      setTimeout(this.handleSave,300);
-      event.preventDefault();
+      setTimeout(this.props.saveRound(roundData),300);  
     }
     
-        computeSGS = () => {
+    computeSGS = () => {
       return (Number(this.state.strokes) + Number(this.state.minutes)) 
                   + ":" + this.state.seconds;
     }
