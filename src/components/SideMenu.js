@@ -61,8 +61,10 @@ class SideMenu extends React.Component {
             {/*Mode-based menu items */}
             {this.renderModeMenuItems()}
             {/* Always-there menu items */}
-            <a className="menuItem"><span className="fa fa-info-circle"></span>&nbsp;About</a>
-            <a className="menuItem"><span className="fa fa-sign-out-alt"></span>&nbsp;Log Out</a>
+            <a className="menuItem" onClick={this.props.showAbout}>
+              <span className="fa fa-info-circle"></span>&nbsp;About</a>
+            <a className="menuItem" onClick={() => this.props.changeMode(AppMode.LOGIN)}>
+              <span className="fa fa-sign-out"></span>&nbsp;Log Out</a>
           </div>
         );
     }

@@ -35,12 +35,13 @@
 
   .modal-header {
       padding: 2px 16px;
-      background-color: white;
-      color: #13294E;
+      background-color:#13294E;
+      color: white;
     }
     
     .modal-body {
       padding: 2px 16px;
+      color: #13294E;
       text-align: center;
     }
     
@@ -52,24 +53,15 @@
       justify-content: center;
     }
   
-  /* The modal dialog close buttons */
-  .close {
-    color:#13294E;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  
-  .close:hover,
-  .close:focus {
+    .close-modal-button {
+      border: 2px solid #13294E;; 
+      background-color:#13294E;; color: white;
+      float: right
+    }
+
+  .close-modal-button:hover,
+  .close-modal-button:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
-  }
-
-  .close-modal-button {
-    border: 2px solid black; 
-    background-color: black; color: white;
-    float: right
   }

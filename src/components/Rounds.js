@@ -4,6 +4,16 @@ import RoundsTable from './RoundsTable.js';
 import RoundForm from './RoundForm.js';
 import FloatingButton from './FloatingButton.js';
 
+//Rounds -- A parent component to the RoundsTable and RoundForm components.
+//Provida single source of truth for the current user's rounds and provides
+//functions for adding, editing and deleting the current user's rounds. Since
+//editing and deleting an existing round can occur only after either presenting
+//the user with a form to edit or presenting the user with a dialog to confirm a
+//deletion, we maintain two state vars deleteId and editId to capture the unique
+//Id of the round currently being edited or flagged for deletion. Then, when the
+//user decides to go through with the edit/delete operation, we use these state
+//variables to carry out the actions.
+
 class Rounds extends React.Component {
 
     constructor(props) {
@@ -15,6 +25,9 @@ class Rounds extends React.Component {
                     editId: ""};           
     }
 
+    //addRound -- Given an object newData containing a new round, add the round
+    //to the current user's list of rounds, commit to local storage, and toggle
+    //the mode back to AppMode.ROUNDS since the user is done adding a round.
     addRound = (newData) => {
         let data = JSON.parse(localStorage.getItem("speedgolfUserData"));
         let newRounds = this.state.rounds;
@@ -27,6 +40,11 @@ class Rounds extends React.Component {
         this.props.changeMode(AppMode.ROUNDS);
     }
 
+    //editRound -- Given an object newData containing updated data on an
+    //existing round, update the current user's round uniquely identified by
+    //this.state.editId, commit to local storage, reset editId to empty and
+    //toggle the mode back to AppMode.ROUNDS since the user is done editing the
+    //round. 
     editRound = (newData) => {
         let data = JSON.parse(localStorage.getItem("speedgolfUserData")); 
         let newRounds = this.state.rounds;
@@ -37,6 +55,8 @@ class Rounds extends React.Component {
         this.props.changeMode(AppMode.ROUNDS);
     }
 
+    //deleteRound -- Delete the current user's round uniquely identified by
+    //this.state.deleteId, commit to local storage, and reset deleteId to empty.
     deleteRound = () => {
         let data = JSON.parse(localStorage.getItem("speedgolfUserData"));
         let newRounds = this.state.rounds;
@@ -46,14 +66,21 @@ class Rounds extends React.Component {
         this.setState({rounds: newRounds, deleteId: ""});
     }
 
+    //setDeleteId -- Capture in this.state.deleteId the unique id of the item
+    //the user is considering deleting.
     setDeleteId = (val) => {
         this.setState({deleteId: val});
     }
 
+    //setEditId -- Capture in this.state.editId the unique id of the item
+    //the user is considering editing.
     setEditId = (val) => {
         this.setState({editId: val});
     }
 
+    //render -- Conditionally render the Rounds mode page as either the rounds
+    //table, the rounds form set to obtain a new round, or the rounds form set
+    //to edit an existing round.
     render() {
         switch(this.props.mode) {
             case AppMode.ROUNDS:
@@ -64,7 +91,8 @@ class Rounds extends React.Component {
                     setEditId={this.setEditId}
                     setDeleteId={this.setDeleteId}
                     deleteRound={this.deleteRound}
-                    changeMode={this.props.changeMode} /> 
+                    changeMode={this.props.changeMode}
+                    menuOpen={this.props.menuOpen} /> 
                   <FloatingButton
                       handleClick={() => this.props.changeMode(AppMode.ROUNDS_LOGROUND)}
                       menuOpen={this.props.menuOpen}

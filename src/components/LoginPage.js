@@ -18,8 +18,6 @@ class LoginPage extends React.Component {
 
     //handleLogin -- Callback function that sets up initial app state upon login.
     handleLogin = () => {
-      //Stop spinner
-      this.setState({loginBtnIcon: "fa fa-sign-in",loginBtnLabel: "Log In"});
       //Set the userId of current user
       let thisUser = this.emailInputRef.current.value;
       this.props.setUserId(thisUser);
@@ -42,13 +40,17 @@ class LoginPage extends React.Component {
       this.props.changeMode(AppMode.FEED);
     }
 
+    //handleSubmit -- Called when user clicks on login button. Initiate spinner
+    //for 1 second and call handleLogin to do the work.
     handleSubmit = (event) => {
         this.setState({loginBtnIcon: "fa fa-spin fa-spinner",
                        loginBtnLabel: "Logging In..."});
-        setTimeout(this.handleLogin,300);
+        //Initiate spinner for 1 second
+        setTimeout(this.handleLogin,1000);
         event.preventDefault();
     }
     
+    //render -- Render the log in page.
     render() {
         return(
         <div id="loginModeDiv" className="paddedPage">
@@ -94,7 +96,7 @@ class LoginPage extends React.Component {
                 <img src="https://drive.google.com/uc?export=view&id=1ZoySWomjxiCnC_R4n9CZWxd_qXzY1IeL" />
             </a>
             <p>
-                <i>Version CptS 489 Sp20</i>
+                <i>Version CptS 489 Sp20 W06C2 (React)</i>
             </p>
             <p>
                 <i>© 2020 Professor of Speedgolf. All rights reserved.</i>
